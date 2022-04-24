@@ -6,19 +6,19 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.codenotfound.grpc.HelloWorldClient;
+import com.codenotfound.grpc.CypherQueryClient;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringGrpcApplicationTests {
 
   @Autowired
-  private HelloWorldClient helloWorldClient;
+  private CypherQueryClient helloWorldClient;
 
   @Test
   public void testSayHello() {
-    String msg = new String(helloWorldClient.sayHello("John", "Doe"));
+    String msg = new String(helloWorldClient.queryCypher("MATCH (a:Person) RETURN a.name AS name"));
     System.out.println(msg);
-    assertThat(msg).isEqualTo("Hello John Doe!");
+    assertThat(msg).isEqualTo("server response : Record<{name: \"John\"}>");
   }
 }

@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import HelloWorld_pb2 as HelloWorld__pb2
+import CypherQuery_pb2 as CypherQuery__pb2
 
 
-class HelloWorldServiceStub(object):
+class CypherQueryServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,42 +14,42 @@ class HelloWorldServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.sayHello = channel.unary_unary(
-                '/com.codenotfound.grpc.helloworld.HelloWorldService/sayHello',
-                request_serializer=HelloWorld__pb2.Person.SerializeToString,
-                response_deserializer=HelloWorld__pb2.Greeting.FromString,
+        self.queryCypher = channel.unary_unary(
+                '/com.codenotfound.grpc.helloworld.CypherQueryService/queryCypher',
+                request_serializer=CypherQuery__pb2.QueryMsg.SerializeToString,
+                response_deserializer=CypherQuery__pb2.QueryResults.FromString,
                 )
 
 
-class HelloWorldServiceServicer(object):
+class CypherQueryServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def sayHello(self, request, context):
+    def queryCypher(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_HelloWorldServiceServicer_to_server(servicer, server):
+def add_CypherQueryServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'sayHello': grpc.unary_unary_rpc_method_handler(
-                    servicer.sayHello,
-                    request_deserializer=HelloWorld__pb2.Person.FromString,
-                    response_serializer=HelloWorld__pb2.Greeting.SerializeToString,
+            'queryCypher': grpc.unary_unary_rpc_method_handler(
+                    servicer.queryCypher,
+                    request_deserializer=CypherQuery__pb2.QueryMsg.FromString,
+                    response_serializer=CypherQuery__pb2.QueryResults.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'com.codenotfound.grpc.helloworld.HelloWorldService', rpc_method_handlers)
+            'com.codenotfound.grpc.helloworld.CypherQueryService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class HelloWorldService(object):
+class CypherQueryService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def sayHello(request,
+    def queryCypher(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class HelloWorldService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/com.codenotfound.grpc.helloworld.HelloWorldService/sayHello',
-            HelloWorld__pb2.Person.SerializeToString,
-            HelloWorld__pb2.Greeting.FromString,
+        return grpc.experimental.unary_unary(request, target, '/com.codenotfound.grpc.helloworld.CypherQueryService/queryCypher',
+            CypherQuery__pb2.QueryMsg.SerializeToString,
+            CypherQuery__pb2.QueryResults.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
