@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+package com.codenotfound.grpc.helloworld;
+
+message QueryMsg {
+  string query = 1;
+}
+
+message QueryResults {
+  string message = 1;
+}
+
+service CypherQueryService {
+  rpc queryCypher (QueryMsg) returns (QueryResults);
+}
