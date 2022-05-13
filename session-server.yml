@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-session-server-deployment
+  labels:
+    app: java-session-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-session-server
+  template:
+    metadata:
+      labels:
+        app: java-session-server
+    spec:
+      containers:
+      - name: java-session-server-pod
+        image: eipark/java_session_server
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6565
+        command: ["/bin/sh"]
+        args: ["-c", "cd /root/java-api-server; ./run.sh; sleep 50"]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-session-server
+  labels:
+    app: java-session-server
+spec:
+  ports:
+  - port: 6565
+    protocol: TCP
+  selector:
+    app: java-session-server
